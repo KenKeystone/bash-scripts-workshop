@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ "$#" -ne 3 ]; then
+    echo "Error: You have to enter exactly 3 parameters."
+    echo "Usage: $0 param1 param2 param3"
+    exit 1
+fi
+
+echo "Correct number of parameters: $1, $2, $3"
