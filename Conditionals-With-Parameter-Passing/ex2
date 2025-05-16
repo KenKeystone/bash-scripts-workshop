@@ -1,0 +1,31 @@
+#!/bin/sh
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <file_path>"
+  exit 1
+fi
+
+file_path=$1
+if [ ! -e "$file_path" ]; then
+  echo "Error: The file '$file_path' does not exist."
+fi
+
+file_type=$(file -b "$file_path")
+echo "File type: $file_type"
+if [ -r "$file_path" ]; then
+  echo "The file is readable."
+else
+  echo "The file is not readable."
+fi
+
+if [ -w "$file_path" ]; then
+  echo "The file is writable."
+else
+  echo "The file is not writable."
+fi
+
+if [ -x "$file_path" ]; then
+  echo "The file is executable."
+else
+  echo "The file is not executable."
+fi
