@@ -1,0 +1,8 @@
+#!/bin/sh
+
+echo "Enter your username:"
+read username
+echo "Enter your password:"
+read -s password
+echo ""
+echo "Username: $username | Password: $password"
