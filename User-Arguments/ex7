@@ -1,0 +1,9 @@
+#!/bin/sh
+
+total=$#
+echo "Arguments you entered:"
+for arg in "$@"
+do
+  echo "$arg"
+done
+echo "Total number of arguments: $total"
