@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ "$#" -ne 1 ]; then
+  echo "Usage: $0 <file_path>"
+else
+  filepath=$1
+
+  if [ ! -e "$filepath" ]; then
+    echo "The path does not exist."
+  else
+    if [ -d "$filepath" ]; then
+      echo "It is a directory."
+    else
+      echo "It is a file."
+      filename=$(basename "$filepath")
+      echo "$filename" | grep -q "\."
+      if [ $? -eq 0 ]; then
+        extension=${filename##*.}
+        echo "The file extension is: $extension"
+      else
+        echo "The file has no extension."
+      fi
+    fi
+  fi
+fi
