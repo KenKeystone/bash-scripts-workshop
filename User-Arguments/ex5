@@ -1,0 +1,10 @@
+#!/bin/sh
+args=$#
+echo "You entered the following arguments:"
+while [ "$#" -gt 0 ]
+do
+  echo "$1"
+  shift
+done
+
+echo "Total number of arguments: $args"
