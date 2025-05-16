@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Enter the name of the variable:"
+read varname
+echo "Type the value of that variable:"
+read varvalue
+eval "$varname=\"$varvalue\""
+echo "The variable \$${varname} has the value of:"
+eval "echo \$$varname"
