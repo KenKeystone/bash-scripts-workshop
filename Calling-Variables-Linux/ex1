@@ -1,0 +1,18 @@
+#!/bin/sh
+
+echo "Global variables"
+env
+echo ""
+
+echo "Shell Arguments"
+echo "Nº of arguments: $#"
+echo "List arguments: $@"
+echo ""
+
+ls > /dev/null
+echo $?
+echo ""
+
+# Mostrar el PID del proceso actual (el shell)
+echo "PID of shell:"
+echo $$
