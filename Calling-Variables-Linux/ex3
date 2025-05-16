@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Enter the name of a global variable (e.g., HOME, USER, SHELL, PWD, PATH):"
+echo "Enter the name of a global variable (example: HOME, USER, SHELL, PWD, PATH):"
 read varname
 eval "echo Value of \$${varname}: \$$varname"
 echo "Return value of last command: $?"
