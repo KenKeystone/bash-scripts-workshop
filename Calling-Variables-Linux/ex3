@@ -1,0 +1,11 @@
+#!/bin/sh
+
+echo "Enter the name of a global variable (e.g., HOME, USER, SHELL, PWD, PATH):"
+read varname
+eval "echo Value of \$${varname}: \$$varname"
+echo "Return value of last command: $?"
+echo "Arguments passed to the script:"
+echo "$@"
+echo "Return value of last command: $?"
+echo "PID of the current shell: $$"
+echo "Return value of last command: $?"
