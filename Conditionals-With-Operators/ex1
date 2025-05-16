@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Please enter an integer:"
+read num
+if [ "$num" -ge 0 ]; then
+  echo "The number is positive or zero."
+else
+  echo "The number is negative."
+fi
