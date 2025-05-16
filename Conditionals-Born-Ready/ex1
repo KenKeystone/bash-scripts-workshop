@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "Please enter the file path:"
+read filepath
+
+if [ ! -e "$filepath" ]; then
+  echo "The file does not exist."
+else
+  if [ -r "$filepath" ]; then
+    echo "The file is readable."
+  else
+    echo "The file is not readable."
+  fi
+
+  if [ -w "$filepath" ]; then
+    echo "The file is writable."
+  else
+    echo "The file is not writable."
+  fi
+
+  if [ -x "$filepath" ]; then
+    echo "The file is executable."
+  else
+    echo "The file is not executable."
+  fi
+fi
