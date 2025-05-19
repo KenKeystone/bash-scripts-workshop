@@ -1,0 +1,20 @@
+#!/bin/sh
+
+echo "System users with uppercase (ABC and not abc) letters in their usernames:"
+grep '[A-Z]' /etc/passwd | cut -d: -f1
+valid="no"
+while [ "$valid" != "yes" ]
+do
+  echo "Enter a username:"
+  read user
+
+  grep "^$user:" /etc/passwd > /dev/null
+  if [ $? -eq 0 ]; then
+    valid="yes"
+  else
+    echo "Invalid username. Please try again."
+  fi
+done
+
+echo "User information for '$user':"
+grep "^$user:" /etc/passwd
