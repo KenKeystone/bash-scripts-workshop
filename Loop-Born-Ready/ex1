@@ -1,0 +1,40 @@
+#!/bin/sh
+
+echo "Rock, Paper, Scissors! The Game, make sure to win ;)"
+play="yes"
+while [ "$play" = "yes" ]
+do
+  echo "Type rock, paper, or scissors:"
+  read user
+  if [ "$user" != "rock" ] && [ "$user" != "paper" ] && [ "$user" != "scissors" ]; then
+    echo "Invalid choice. Try again."
+    continue
+  fi
+
+  number=$(( RANDOM % 3 ))
+  if [ "$number" -eq 0 ]; then
+    machine="rock"
+  elif [ "$number" -eq 1 ]; then
+    machine="paper"
+  else
+    machine="scissors"
+  fi
+
+  echo "Machine chose: $machine"
+  if [ "$user" = "$machine" ]; then
+    echo "It's a tie!"
+  elif [ "$user" = "rock" ] && [ "$machine" = "scissors" ]; then
+    echo "You win!"
+  elif [ "$user" = "paper" ] && [ "$machine" = "rock" ]; then
+    echo "You win!"
+  elif [ "$user" = "scissors" ] && [ "$machine" = "paper" ]; then
+    echo "You win!"
+  else
+    echo "Machine wins!"
+  fi
+
+  echo "Do you want to play again? (yes/no)"
+  read play
+done
+
+echo "Thanks for playing!"
