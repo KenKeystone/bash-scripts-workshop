@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <directory_path> <tarball_name>"
+else
+  dirpath=$1
+  tarname=$2
+  if [ ! -e "$dirpath" ]; then
+    echo "Error: The path does not exist."
+  else
+    if [ ! -d "$dirpath" ]; then
+      echo "Error: The path is not a directory."
+    else
+      if [ -e "$tarname" ]; then
+        echo "The file '$tarname' already exists. Overwrite it? (y/n)"
+        read answer
+        if [ "$answer" != "y" ]; then
+          echo "Compression canceled by user."
+        else
+          tar -czf "$tarname" "$dirpath"
+          echo "Directory compressed into '$tarname'."
+        fi
+      else
+        tar -czf "$tarname" "$dirpath"
+        echo "Directory compressed into '$tarname'."
+      fi
+    fi
+  fi
+fi
