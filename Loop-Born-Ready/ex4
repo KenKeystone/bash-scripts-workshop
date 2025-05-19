@@ -1,0 +1,34 @@
+#!/bin/sh
+
+while true
+do
+  echo ""
+  echo "Menu:"
+  echo "1) Show current date and time"
+  echo "2) Check if a file exists"
+  echo "3) Exit"
+  echo "Please enter your choice (1, 2, or 3):"
+  read choice
+
+  if [ "$choice" = "1" ]; then
+    echo "Current date and time:"
+    date
+  else
+    if [ "$choice" = "2" ]; then
+      echo "Enter the file name to check:"
+      read filename
+      if [ -e "$filename" ]; then
+        echo "File '$filename' exists."
+      else
+        echo "File '$filename' does not exist."
+      fi
+    else
+      if [ "$choice" = "3" ]; then
+        echo "Goodbye!"
+        break
+      else
+        echo "Invalid option. Please enter 1, 2, or 3."
+      fi
+    fi
+  fi
+done
