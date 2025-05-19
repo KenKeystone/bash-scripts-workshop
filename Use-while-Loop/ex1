@@ -1,0 +1,22 @@
+#!/bin/sh
+
+echo "Enter the name of the file to save the words:"
+read filename
+if [ ! -f "$filename" ]; then
+  touch "$filename"
+  echo "File '$filename' created."
+else
+  echo "File '$filename' already exists. Words will be added to it."
+fi
+
+echo "Start typing words. Type ':>' to finish."
+while true
+do
+  read word
+  if [ "$word" = ":>" ]; then
+    break
+  fi
+  echo "$word" >> "$filename"
+done
+
+echo "Words saved to '$filename'."
