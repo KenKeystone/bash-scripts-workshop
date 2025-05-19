@@ -1,0 +1,26 @@
+#!/bin/sh
+
+echo "Enter the name of the file:"
+read filename
+if [ ! -f "$filename" ]; then
+  echo "The file does not exist."
+else
+  grep -v '^#' "$filename" > temp_cleaned.txt
+
+  echo "Enter a word or phrase to search in the file:"
+  read keyword
+  grep -iq "$keyword" temp_cleaned.txt
+  if [ $? -eq 0 ]; then
+    echo "The word or phrase '$keyword' exists in the file."
+  else
+    echo "The word or phrase '$keyword' does not exist in the file."
+  fi
+
+  echo "Please enter a sentence to add at the end of the file:"
+  read sentence
+
+  echo "$sentence" >> temp_cleaned.txt
+  mv temp_cleaned.txt "$filename"
+
+  echo "Done. Comments removed, sentence added, and file updated."
+fi
