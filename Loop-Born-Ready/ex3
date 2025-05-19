@@ -1,0 +1,25 @@
+#!/bin/sh
+
+while true
+do
+  echo "Please enter your password:"
+  read password
+  length=`echo "$password" | wc -c`
+  length=`expr $length - 1`
+  if [ $length -lt 8 ]; then
+    echo "Error: Password must be at least 8 characters long."
+  else
+    uppercase=`echo "$password" | grep '[A-Z]'`
+    if [ -z "$uppercase" ]; then
+      echo "Error: Password must contain at least one uppercase letter."
+    else
+      digit=`echo "$password" | grep '[0-9]'`
+      if [ -z "$digit" ]; then
+        echo "Error: Password must contain at least one digit."
+      else
+        echo "Password is valid."
+        break
+      fi
+    fi
+  fi
+done
