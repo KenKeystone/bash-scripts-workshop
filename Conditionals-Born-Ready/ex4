@@ -1,0 +1,23 @@
+#!/bin/sh
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 <file.txt or file.csv> <protocol>"
+else
+  filename=$1
+  protocol=$2
+  if [ ! -f "$filename" ]; then
+    echo "Error: File does not exist."
+  else
+    echo "$filename" | grep -qiE '\.txt$|\.csv$'
+    if [ $? -ne 0 ]; then
+      echo "Error: File must have a .txt or .csv extension."
+    else
+      count=$(grep -i "$protocol" "$filename" | wc -l)
+      if [ "$count" -eq 0 ]; then
+        echo "No lines found containing the protocol '$protocol'."
+      else
+        echo "Lines containing '$protocol': $count"
+      fi
+    fi
+  fi
+fi
