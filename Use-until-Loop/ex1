@@ -1,0 +1,19 @@
+#!/bin/sh
+
+until [ -d "$dir" ]
+do
+  echo "Please enter a valid directory path:"
+  read dir
+  if [ ! -e "$dir" ]; then
+    echo "The path does not exist."
+  elif [ ! -d "$dir" ]; then
+    echo "The path is not a directory."
+  fi
+done
+
+echo "Permissions for '$dir':"
+ls -ld "$dir"
+count=$(ls -1 "$dir" | wc -l)
+echo "Number of items inside the directory: $count"
+echo "Contents of the directory:"
+ls -1 "$dir"
