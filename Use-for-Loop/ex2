@@ -1,0 +1,26 @@
+#!/bin/sh
+
+positive=0
+negative=0
+zero=0
+
+for num in "$@"
+do
+  echo "$num" | grep -qE '^[-]?[0-9]+$'
+  if [ $? -eq 0 ]; then
+    if [ "$num" -gt 0 ]; then
+      positive=$((positive + 1))
+    elif [ "$num" -lt 0 ]; then
+      negative=$((negative + 1))
+    else
+      zero=$((zero + 1))
+    fi
+  else
+    echo "'$num' is not a valid integer and will be ignored."
+  fi
+done
+
+echo "We got,"
+echo "This many positive numbers: $positive"
+echo "This many negative numbers: $negative"
+echo "This many zeroes: $zero"
