@@ -1,0 +1,98 @@
+#!/bin/bash
+
+# ========== Configuration ==========
+REMOTE_USER="user"
+REMOTE_HOST="192.168.20.1"
+SSH_OPTIONS="-o StrictHostKeyChecking=no"
+KEY_FILES=("/etc/passwd" "/etc/hosts")
+BACKUP_DIR="./server_backup_$(date +%Y%m%d_%H%M%S)"
+LOG_FILE="remote_check.log"
+
+# ========== Trap Setup ==========
+trap 'echo "Script interrupted. Cleaning up..."; exit 1' INT TERM
+
+# ========== Functions ==========
+
+run_remote() {
+    ssh $SSH_OPTIONS "$REMOTE_USER@$REMOTE_HOST" "$1"
+}
+
+check_tool() {
+    run_remote "command -v $1 >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y $1"
+}
+
+check_cpu() {
+    echo "Checking CPU usage..."
+    run_remote "top -bn1 | grep 'Cpu(s)'"
+    echo "CPU usage checked!"
+}
+
+check_ram() {
+    echo "Checking RAM usage..."
+    run_remote "free -h"
+    echo "RAM usage checked!"
+}
+
+check_disk() {
+    echo "Checking Disk space..."
+    run_remote "df -h"
+    echo "Disk space checked!"
+}
+
+check_devices() {
+    echo "Checking device status and temperature..."
+    check_tool "lshw"
+    check_tool "lm-sensors"
+    run_remote "sudo sensors"
+    echo "Device status and temperature checked!"
+}
+
+check_services() {
+    echo "Checking active services..."
+    run_remote "systemctl list-units --type=service --state=running"
+    echo "Active services checked!"
+}
+
+check_ports() {
+    echo "Checking open ports..."
+    check_tool "netstat"
+    run_remote "sudo netstat -tuln"
+    echo "Open ports checked!"
+}
+
+check_processes() {
+    echo "Checking running processes..."
+    run_remote "ps aux --sort=-%mem | head"
+    echo "Running processes checked!"
+}
+
+check_files() {
+    echo "Checking presence of key files..."
+    for file in "${KEY_FILES[@]}"; do
+        run_remote "[ -f $file ] && echo '$file exists.' || echo '$file NOT found.'"
+    done
+    echo "Presence of key files checked!"
+}
+
+backup_info() {
+    echo "Creating backup of server information..."
+    mkdir -p "$BACKUP_DIR"
+    run_remote "uname -a && lsb_release -a && df -h && free -h" > "$BACKUP_DIR/system_info.txt"
+    echo "Backup of server information created!"
+}
+
+main() {
+    echo "==== Remote Server Check Started ====" > "$LOG_FILE"
+    check_cpu >> "$LOG_FILE"
+    check_ram >> "$LOG_FILE"
+    check_disk >> "$LOG_FILE"
+    check_devices >> "$LOG_FILE"
+    check_services >> "$LOG_FILE"
+    check_ports >> "$LOG_FILE"
+    check_processes >> "$LOG_FILE"
+    check_files >> "$LOG_FILE"
+    backup_info
+    echo "==== Check Completed. Log saved to $LOG_FILE ===="
+}
+
+main
